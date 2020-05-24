@@ -7,7 +7,7 @@ Then, it **converts** RPN expression to INF form, or INF expression to RPN form.
 First input variable is **how many data sets user will put in**. Then, program awaits for **determining which notation do you want to convert**,
 RPN or INF. After that user is supposed to type in the expression. Program outputs **expression converted to wanted notation form**.
 
-Program uses **stack** to solve the conversion problem. Example input/output below. Note, that RPN in Polish is ONP, hence different spelling in i/o.
+Program uses **stack** to solve the conversion problem. Example input/output below. Note, that **RPN in Polish is ONP**, hence different spelling in i/o.
 
 Example input/output below.
 
