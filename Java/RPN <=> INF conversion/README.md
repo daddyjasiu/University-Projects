@@ -9,6 +9,8 @@ RPN or INF. After that user is supposed to type in the expression. Program outpu
 
 Program uses **stack** to solve the conversion problem. Example input/output below. Note, that RPN in Polish is ONP, hence different spelling in i/o.
 
+Example input/output below.
+
 
 ### INPUT:
 ```26
