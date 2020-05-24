@@ -8,6 +8,8 @@ Space complexity: **O(1)**.
 
 First input variable is **how many data sets user will put in**. Next, he inputs **size of an array** and **that many array elements**. Later he puts in **how many pairs (ranges) he will input** and lastly he types the **pairs themselves**. Program outputs **number of numbers in the given range** and at the end of each data set it shows **how many different numbers were there**.
 
+Example input/output below.
+
 ### INPUT:
 ```
 2 
