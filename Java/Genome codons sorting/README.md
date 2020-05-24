@@ -17,6 +17,8 @@ Program does a couple of things.
 
 Sorting is performed by using **iterative QuickSort with a stack**.
 
+Example input/output below.
+
 
 ### INPUT:
 ```
