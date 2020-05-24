@@ -1,13 +1,13 @@
-# RPN <=> INF both ways conversion.
+# RPN to INF and INF to RPN conversion.
 
 Program deletes unwanted signs such as `","`, `"spaces"` etc. and checks syntax of given input expression.
 
-Then, it converts RPN expression to INF form, or INF expression to RPN form.
+Then, it **converts** RPN expression to INF form, or INF expression to RPN form.
 
-First input variable is how many data sets user will put in. Then, program awaits for determining which notation do you want to convert,
-RPN or INF. After that user is supposed to type in the expression. Program outputs expression converted to wanted notation form.
+First input variable is **how many data sets user will put in**. Then, program awaits for **determining which notation do you want to convert**,
+RPN or INF. After that user is supposed to type in the expression. Program outputs **expression converted to wanted notation form**.
 
-Program uses stack to solve the conversion problem. Example input/output below. Note, that RPN in Polish is ONP, hence different spelling in i/o.
+Program uses **stack** to solve the conversion problem. Example input/output below. Note, that RPN in Polish is ONP, hence different spelling in i/o.
 
 
 ### INPUT:
