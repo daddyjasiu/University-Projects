@@ -5,3 +5,5 @@ Mainly these are programs that use specific algorithms to solve some problems su
 Please note, that most of the programs have **Polish words in output or in variables' names**. For every program folder I have added a short description in English, so that non-Polish speakers could understand.
 
 However, for Polish speakers every program folder contains a `pdf file` that is a original task written in Polish.
+
+@https://github.com/hi-im-happy/University-projects/blob/master/Java/README.pl.md
