@@ -2,14 +2,15 @@
 
 Program searches for a **first indexes and last indexes of a given value in a 2D array** by using **both iterative and recursive** functions.
 
-Time complexity of both functions: **O(n)**
+Time complexity of both functions: **O(n)**.
 
 Recursive function is **not using any loop** and iterative function is **not using any other function**.
 
 First input variable is **how many data sets will user put in**. Then he types **number of rows and colmuns** of a 2D array followed by 
 **non-decreasing values of the array** itself. Lastly he types in the **value he is looking for**. Program outputs **first and last indexes of
-rows and columns** in both functions respectively. If number is **not present** in the array, program **outputs** that this has occured. Note that
-the output language is **Polish**, but it does **not** change the logic behind the program.
+rows and columns** in both functions respectively. If number is **not present** in the array, program **outputs** that this has occured. Note that the output language is **Polish**, but it does **not** change the logic behind the program. 
+
+Example input/output below.
 
 ### INPUT:
 ```
