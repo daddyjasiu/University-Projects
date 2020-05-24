@@ -1,4 +1,4 @@
-# Number of numbers in given range using binsearch.
+# Find a number of numbers in a given range using binsearch.
 
 Program if given a set of numbers and range outputs how many numbers are in that range.
 
