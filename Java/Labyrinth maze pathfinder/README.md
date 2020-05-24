@@ -12,6 +12,8 @@ User inputs two variables which are **numbers of rows and columns** of our labyr
 points coordinates) he wants to input**. Then, he puts in letter `"r"` or `"i"` according if he wants to use **recursive** or **iterative** way 
 of finding the exit. Lastly the letter is followed by the **coords themselves**.
 
+Example input/output below.
+
 ### INPUT:
 ```
 5 5
