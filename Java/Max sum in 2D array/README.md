@@ -2,7 +2,7 @@
 
 For non-empty array find its maximum subarray containing the **largest, non-negative sum**.
 
-Time complexity: O(n<sup>3</sup>).
+Time complexity: **O(n<sup>3</sup>)**.
  
 If every element of given input array is **negative**, then the array is **_"empty"_**.
 
