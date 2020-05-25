@@ -1,7 +1,7 @@
 # Labyrinth recursive and iterative pathfinder with steps.
 
 Program **finds a way** between two given points in a _maze_ which is a 2D array. The array consists of `1's` and `0's` where `1` is a *wall* and
-`0` is a *moving field*. Algorithm *avoids the walls and outputs steps taken* on the way by writing `N, E, S, W` which are of course respectively
+`0` is a *moving field*. Algorithm **avoids the walls** and **outputs steps taken** on the way by writing `N, E, S, W` which are of course respectively
 `North, East, South, West`. If the way out **doesn't exist**, program outputs `i/r X`.
 
 Iterative function uses **stack** to solve the problem and can have **only 1 while loop** with space complexity **O(1)**.
