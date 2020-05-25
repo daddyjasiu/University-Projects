@@ -7,7 +7,7 @@ that contain `goods.` There are halso `handy racks` and `handy shelves` that are
 operations.
 
 There can be any number of `warehouses`, `racks`, `shelves`, `places` and `goods`. They also can have
-their unique IDs once given. 
+their unique `IDs` once given some. 
 
 Operations that storehouse can perform are **adding** certain warehouses, racks etc. to the storehouse, 
 **placing** things on them, **moving** them between various structures,
