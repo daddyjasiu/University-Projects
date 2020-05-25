@@ -1,1 +1,1 @@
-#Bash program that outputs `n` first Fibonacci sequence numbers.
+### Bash program that outputs `n` first Fibonacci sequence numbers.
