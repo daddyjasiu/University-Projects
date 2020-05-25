@@ -6,8 +6,8 @@ Storehouse consists of `warehouses`, `racks`, that contain `shelves`, that conta
 that contain `goods.` There are halso `handy racks` and `handy shelves` that are temporarily used at some
 operations.
 
-There can be any number of warehouses, racks, shelves, places and goods and
-the have their unique IDs. 
+There can be any number of `warehouses`, `racks`, `shelves`, `places` and `goods`. They also can have
+their unique IDs once given. 
 
 Operations that storehouse can perform are **adding** certain warehouses, racks etc. to the storehouse, 
 **placing** things on them, **moving** them between various structures,
