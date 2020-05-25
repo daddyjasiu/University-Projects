@@ -2,7 +2,7 @@
 
 Program does a couple of things. List of steps below:
 
-1) Search for letters other than `"A"`, `"C"`, `"T"`, `"G"`. If there are some, output _`Wrong character in DNA sequence.`_
+1) Search for letters other than `"A"`, `"C"`, `"T"`, `"G"`. If there are any, output _`Wrong character in DNA sequence.`_
 
 2) If the syntax of the genome is **correct**, find START codone (`"ATG"`) and STOP codone (`"TAA", "TGA" or "TAG"`). If there is any other
  START/STOP codone between them, output _`More than one START/STOP codon.`_
