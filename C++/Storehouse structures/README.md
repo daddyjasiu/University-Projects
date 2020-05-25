@@ -13,4 +13,4 @@ Operations that storehouse can perform are **adding** certain warehouses, racks 
 **placing** things on them, **moving** them between various structures,
 **deleting** them, **setting** their IDs and **displaying** them.
 
-`PNG file` contains a task in Polish and an **example input/output**.
+`PNG file` contains a task in **Polish** and an **example input/output**.
