@@ -8,4 +8,4 @@ Note, that in all of my **Java** programs I **mustn't** have used any import fil
 
 In **C++** in most of my programs I could **only** enable **_`<iostream>`_** header file.
   
-These were the **requirements** of submission at my university.
+These were the **requirements** of submissions of the code at my university.
