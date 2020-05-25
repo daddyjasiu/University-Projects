@@ -10,4 +10,4 @@ Program **reads** a `variable and data from a file`, **sorts** that data in **2*
 
 4) Performing a **symmetric difference** of two files.
 
-`PNG file` contains a task in **Polish** and an example **input/output**.
+`PNG file` contains a task in **Polish** and an **example input/output**.
