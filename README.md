@@ -1,4 +1,4 @@
-# University-projects
+# Jagiellonian University projects.
 
 ### Hello world!
 
