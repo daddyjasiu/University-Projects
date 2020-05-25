@@ -1,6 +1,6 @@
 # Sorting codons of a genome between START/ STOP codones.
 
-Program does a couple of things.
+Program does a couple of things. List of steps below:
 
 1) Search for letters other than `"A"`, `"C"`, `"T"`, `"G"`. If there are some, output _`Wrong character in DNA sequence.`_
 
