@@ -1,2 +1,2 @@
 # Strings of beads (sznury korali).
-### Nested lists operations.
+### Nested lists operations
