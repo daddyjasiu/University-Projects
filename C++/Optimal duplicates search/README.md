@@ -1,1 +1,1 @@
-# Searching for duplicated in logarithmic time
+# Searching for duplicates in logarithmic time
