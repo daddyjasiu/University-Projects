@@ -1,1 +1,1 @@
-# Continued operations on sets, but without using arrays this time.
+# Continued operations using functions and procedures, but without using arrays this time.
