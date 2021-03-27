@@ -4,734 +4,653 @@
 
 using namespace std;
 
-int sznurki = -1;
+struct Wiazanie {
 
-struct Wiazanie{
-	
-	Wiazanie *next;
-	Wiazanie *prev;
-	
-    int Id1;
-    char pierwsza;
-    char druga;
-    char trzecia;
-    
-    Wiazanie(char A1, char B1, char C1, int id1) {
+    Wiazanie *next;
 
-	    pierwsza=A1;
-	    druga=B1;
-	    trzecia=C1;
-	    Id1=id1;
-	}
+    int Id;
+    char A, B, C;
 
-};
+    Wiazanie() {
 
-struct BazaWiazan{
-	
-	Wiazanie* head;
-	Wiazanie* tail;
+        next = 0;
 
-	void DeleteWiazanie( char A2, char B2, char C2, int id2) {
-	
-        Wiazanie *temp2 ;
-        temp2= head;
-        
-        while(temp2)
-		{
-            if(temp2->Id1==id2&&temp2->pierwsza==A2&&temp2->druga==B2&&temp2->trzecia==C2)
-            {
-                if(temp2==head||temp2==tail)
-                {
-					if(temp2==head)
-                    {
-                        if(head==tail)
-                        {
-                            head=0;
-                            tail=0;
-                        }
-                        else{head=head->next;
-                        if(head)head->prev=0;}
-                    }
-                        
-                    if(temp2==tail)
-                    {
-                        if(head==tail)
-                        {
-                            head=0;
-                            tail=0;
-                        }
-                        else
-						{
-                            tail=tail->prev;
-                            if(tail)tail->next=0;
-                        }
-                    }
-                }
-                       // else{
-                        //temp2->prev->next=temp2->next;
-                        //temp2->next->prev=temp2->prev;}
+    }
 
-            }
-            temp2 = temp2->next;
-        }
-
-}
-
-	void AddWiazanie(char A2, char B2, char C2, int id2){
-	
-		Wiazanie* nowe =new Wiazanie(A2,B2,C2,id2);
-		
-		if(tail){
-			tail->next=nowe;
-			nowe->prev=tail;
-			tail=nowe;
-			nowe->next=NULL;
-		}
-		
-		else {
-			head=nowe;
-			tail=nowe;
-			nowe->next=NULL;
-		}
-		
-		nowe=NULL;
-		delete nowe;
-		
-	}
-
-	BazaWiazan(){
-		head=0;
-		tail=0;
-	}
-
-	void sortuj(Wiazanie* &l){
-	
-	   Wiazanie* posortowana = 0;
-	
-	   while(l != 0)
-	   {
-	
-	      	Wiazanie *max = l,
-	
-	        *przed_max = 0;
-	
-	
-	      	for(Wiazanie *p = l, *i = l->next; i != 0; p = i, i = i->next)
-			{
-	
-	         	if(i->pierwsza > max->pierwsza)
-	         	{
-	
-	            	max = i;
-	            	przed_max = p;
-	
-	         	}
-	         	
-	         	else if (i->pierwsza==max->pierwsza)
-	         	{
-		            if(i->druga>max->druga)
-		            {
-		                max = i;
-		                przed_max = p;
-		            }
-		            
-		            else if(i->druga==max->druga)
-		            {
-		                if(i->trzecia>max->trzecia)
-		                {
-		                    max = i;
-		                    przed_max = p;
-		                }
-		                else if(i->trzecia==max->trzecia)
-		                {
-		                    if(i->Id1>max->Id1)
-		                    {
-		                        max = i;
-		                        przed_max = p;
-		                    }
-		                }
-		            }
-	         	}
-	      	}
-	
-	    	if(przed_max != 0)
-	    		przed_max->next = max->next;
-	      	
-			else
-	        	l = max->next;
-	
-	      	max->next = posortowana;
-	
-	      	posortowana = max;
-	
-	   }
-	
-	   l = posortowana;
-	
-	}
 };
 
 struct Koralik {
-	
+
     Koralik *next;
-    Koralik *former;
+    Wiazanie *first;
+
     int Id;
-    BazaWiazan* baza;
-    
-    Koralik(){
-	    next = 0;
-	    former = 0;
-	    baza=0;
-	}
-    
-	void DisplayWiazania(){
-	    
-		if(baza)
-	    {
-	        Wiazanie* temp= baza->head;
-	
-	
-	        baza->sortuj(temp);
-	
-	        while(temp)
-	        {
-	            cout<<temp->pierwsza<<temp->druga<<temp->trzecia<<" "<<temp->Id1<<" ";
-	            temp=temp->next;
-	        }
-	    }
-	}
+
+    Koralik() {
+
+        next = 0;
+        first = 0;
+
+    }
 
 };
 
 struct Sznurek {
-	
-    Sznurek *nastepny;
-    Sznurek *poprzedni;
-    Koralik *pierwszy;
-    Koralik *ostatni;
-    char a;
-    char b;
-    char c;
 
-	void AddKoralik(Sznurek *tmp, int id){
-	
-		Koralik *nowy = new Koralik;
-	    nowy->Id = id;
-	    nowy->baza= new BazaWiazan();
-	    
-	    if (pierwszy == 0){
-	        pierwszy = nowy;
-	        ostatni = nowy;
-	    }
-		
-		else{
-	        bool test = true;
-	        Koralik *temp = pierwszy;
-	        while (temp->next) {
-	            if (id < temp->Id) {
-	                test = false;
-	                if (temp->former == 0) {
-	                    pierwszy = nowy;
-	                    nowy->former = 0;
-	                    nowy->next = temp;
-	                    temp->former = nowy;
-	                } else {
-	                    nowy->former = temp->former;
-	                    temp->former->next = nowy;
-	                    temp->former = nowy;
-	                    nowy->next = temp;
-	                }
-	                break;
-	            }
-	            temp = temp->next;
-	        }
-	        
-	        if (temp->next == 0){
-	        	if (id < temp->Id && test){
-	                test = false;
-	                if (temp->former == 0) {
-	                    pierwszy = nowy;
-	                    nowy->former = 0;
-	                    nowy->next = temp;
-	                    temp->former = nowy;
-	                } else {
-	                    nowy->next = temp;
-	                    nowy->former = temp->former;
-	                    temp->former->next = nowy;
-	                    temp->former = nowy;
-	                }
-	            }
-	        }
-	        temp=NULL;
-	        delete temp;
-	        if (test) {
-	            nowy->former = ostatni;
-	            ostatni = nowy;
-	            if (nowy->former) {
-	                nowy->former->next = nowy;
-	            }
-	        }
-	    }
-	    nowy=NULL;
-	    delete nowy;
-	}
-	
-	void DisplayKoralik() {
-	
-		Koralik *tmp = pierwszy;
-	
-		while(tmp){
-	
-	        cout << tmp->Id<<" " ;
-	        tmp->DisplayWiazania();
-	        cout<<endl;
-	        tmp = tmp->next;
-	    }
-	    delete tmp;
-	}
+    Sznurek *next;
+    Koralik *first;
 
-    Sznurek(){
-	    nastepny = 0;
-	    poprzedni = 0;
-	    pierwszy = 0;
-	}
+    char A, B, C;
+
+    Sznurek() {
+
+        next = 0;
+        first = 0;
+    }
+
 };
 
-struct Lista{
+struct Baza {
 
-    Sznurek *pierwsza;
-    Sznurek *ostatnia;
-	
-	void DeleteWiazanie(char A1, char B1, char C1, int id1, char A2, char B2, char C2, int id2);
-	
-    void AddBead(char A, char B, char C, int id){
-	    Sznurek *temp = pierwsza;
-	    
-	    while (temp) {
-	        if (A == temp->a && B == temp->b && C == temp->c){
-	        	
-	            temp->AddKoralik(temp, id);
-	        }
-	        temp = temp->nastepny;
-	    }
-	    delete temp;
-	}
-	
-	void AddSznurek(char A, char B, char C){
-	
-		Sznurek *nowy = new Sznurek;
-	    sznurki++;
-	    
-	    nowy->a = A;
-	    nowy->b = B;
-	    nowy->c = C;
-	    
-	    if (pierwsza == 0) {
-	        pierwsza = nowy;
-	        ostatnia = nowy;
-	    }
-	    
-		else{
-	        bool test = true;
-	        Sznurek *temp = pierwsza;
-	        if (A < temp->a || (A == temp->a && B < temp->b) || (A == temp->a && B == temp->b && C < temp->c)) {
-	            if (sznurki <= 1) {
-	                test = false;
-	                nowy->nastepny = temp;
-	                pierwsza = nowy;
-	                nowy->poprzedni = 0;
-	                temp->nastepny = 0;
-	                nowy->nastepny->poprzedni = nowy;
-	            }
-	        }
-	        while (temp->nastepny) {
-	            if (A < temp->a || (A == temp->a && B < temp->b) || (A == temp->a && B == temp->b && C < temp->c)) {
-	                test = false;
-	                if (temp->poprzedni == 0) {
-	                    nowy->nastepny = temp;
-	                    nowy->poprzedni = 0;
-	                    pierwsza = nowy;
-	                    temp->poprzedni = nowy;
-	                } else {
-	                    nowy->nastepny = temp;
-	                    nowy->poprzedni = temp->poprzedni;
-	                    temp->poprzedni->nastepny = nowy;
-	                    temp->poprzedni = nowy;
-	                }
-	                break;
-	            }
-	            temp = temp->nastepny;
-	        }
-	        if (temp->nastepny == 0) {
-	            if ((A < temp->a || (A == temp->a && B < temp->b) || (A == temp->a && B == temp->b && C < temp->c)) &&
-	                test) {
-	                test = false;
-	                nowy->nastepny = temp;
-	                nowy->poprzedni = temp->poprzedni;
-	                temp->poprzedni->nastepny = nowy;
-	                temp->poprzedni = nowy;
-	            }
-	        }
-	        if (test) { // nie znaleziono mniejszeego
-	            nowy->poprzedni = ostatnia;
-	            ostatnia = nowy;
-	            if (nowy->poprzedni) {
-	                nowy->poprzedni->nastepny = nowy;
-	            }
-	        }
-	    }
-	    nowy=NULL;
-	    delete nowy;
-	}
-	
-	bool CzyKoraliki(char A1, char B1, char C1, int id1, char A2, char B2, char C2, int id2){
-	
-		Sznurek *temp = pierwsza;
-		Koralik *koral = new Koralik;
-	
-	    bool koralik1 = false, koralik2 = false;
-	
-	    while (temp){
-	
-	        if (A1 == temp->a && B1 == temp->b && C1 == temp->c) {
-	
-	        	koral = temp->pierwszy;
-	
-	            while(koral) {
-	
-					if(koral->Id == id1) koralik1 = true;
-	
-	                koral = koral->next;
-	            }
-	        }
-	
-			if (temp->a == A2 && temp->b == B2 && temp->c == C2) {
-	
-	            koral = temp->pierwszy;
-	
-				while(koral) {
-	
-					if(koral->Id == id2) koralik2 = true;
-	
-	                koral = koral->next;
-	            }
-	        }
-	
-	        temp = temp->nastepny;
-	    }
-	    delete koral;
-	    if(koralik1==true&&koralik2==true)return true;
-	    return false;
-	
-	
-	}
+    Sznurek *first;
 
-    void Display(){
+    Baza() {
 
-	    Sznurek *temp = pierwsza;
-	
-	    while (temp){
-	
-	        cout << temp->a << temp->b << temp->c << endl;
-	        temp->DisplayKoralik();
-	        temp = temp->nastepny;
-	    }
-	    delete temp;
-	}
+        first = 0;
+    }
 
-	void DodajWiazanie(char A1,char B1,char C1,int id1,char A2, char B2, char C2, int id2){
-	    
-		Sznurek* temp=pierwsza;
-	    Koralik * koral;
-	    while(temp)
-	    {
-	        if (A1 == temp->a && B1 == temp->b && C1 == temp->c) {
-	
-	        	koral = temp->pierwszy;
-	
-	            while(koral) {
-	
-					if(koral->Id == id1) {
-	                        koral->baza->AddWiazanie(A2,B2,C2,id2);
-	                }
-	                koral = koral->next;
-	            }
-	
-	    }
-	    temp=temp->nastepny;
-	    }
-	    koral=NULL;
-	    delete koral;
-	    delete temp;
-	}
-	
-	void UsunWiazanie(char A1,char B1,char C1,int id1,char A2, char B2, char C2, int id2){
-	    
-		Sznurek* temp=pierwsza;
-	    Koralik * koral;
-	    while(temp)
-	    {
-	        if (A1 == temp->a && B1 == temp->b && C1 == temp->c){
-	
-	        	koral = temp->pierwszy;
-	
-	            while(koral) {
-	
-					if(koral->Id == id1) koral->baza->DeleteWiazanie(A2,B2,C2,id2);
-	
-	                koral = koral->next;
-	            }
-	    	}
-	    	temp=temp->nastepny;
-	    }
-	    
-		koral=NULL;
-	    delete koral;
-	    delete temp;
-	
-	}
-	
-	void DeleteKoralAndLinks(char s1, char s2, char s3, int id1){
-	
-		Sznurek* temp=pierwsza;
-		Koralik* temp1;
-		while(temp)
-	    {
-	        temp1=temp->pierwszy;
-	        if(temp->a==s1&&temp->b==s2&&temp->c==s3)
-	        {
-	            while(temp1)
-	            {
-	                if(temp1->Id==id1)
-	                {
-	                    if(temp1==temp->pierwszy||temp1==temp->ostatni)
-	                    {
-	                        if(temp1==temp->pierwszy)
-	                        {
-	                            temp->pierwszy=temp->pierwszy->next;
-	                            if(temp->pierwszy)temp->pierwszy->former=0;
-	                        }
-	                        if(temp1==temp->ostatni)
-	                        {
-	                            temp->ostatni=temp->ostatni->former;
-	                            if(temp->ostatni)temp->ostatni->next=0;
-	                        }
-	                    }
-	                    else{temp1->former->next=temp1->next;
-	                    temp1->next->former=temp1->former;}
-	
-	
-	                }
-	                temp1=temp1->next;
-	            }
-	        }
-	        temp=temp->nastepny;
-	    }
-	    temp1=NULL;
-	    delete temp1;
-	    delete temp;
-	
-	}
-	
-	void MoveKoralik(char A1, char B1, char C1, int id1, char A2, char B2, char C2){
-	    
-		Sznurek* temp=pierwsza;
-	    Koralik* temp1;
-	    Koralik* temp2;
-		Koralik* temp3 = temp1;
+    void print() {
 
-		Lista* baza;
-		
-		baza->DeleteKoralAndLinks(A1, B1, C1, temp1->Id);
-		baza->AddBead(A2, B2, C2, temp3->Id);
+        Sznurek *sznur_itr = first;
 
-	}
-	
-	void UsunSznur(char A1, char B1, char C1){
-	    Sznurek* temp=pierwsza;
-	    Koralik* temp1;
-	
-	    while(temp)
-	    {
-	        if(temp->a==A1&&temp->b==B1&&temp->c==C1)
-	        {
-	            temp1=temp->pierwszy;
-	            //while(temp1)
-	            //{
-	            //    UsunNiepotrzebne(A1,B1,C1,temp1->Id);
-	            //    temp1=temp1->next;
-	           // }
-	            if(temp==pierwsza||temp==ostatnia)
-	            {
-	                if(temp==pierwsza)
-	                {
-	                    pierwsza=temp->nastepny;
-	
-	                }
-	                if(temp==ostatnia)
-	                {
-	                    ostatnia=ostatnia->poprzedni;
-	                    if(ostatnia)ostatnia->nastepny=0;
-	                }
-	            }
-	            else{
-	                temp->nastepny->poprzedni=temp->poprzedni;
-	                temp->poprzedni->nastepny=temp->nastepny;
-	            }
-	
-	        }
-	        temp=temp->nastepny;
-	    }
-	    delete temp;
-	    delete temp1;
-	}
+        while (sznur_itr) {
 
-    void UsunNiepotrzebne(char A1, char B1, char C1, int id1){
-	    
-		Sznurek* temp=pierwsza;
-	    Koralik* temp1;
-	    BazaWiazan* temp2;
-	    Wiazanie* temp3;
-	    
-		while(temp)
-	    {
-	        temp1=temp->pierwszy;
-	        while(temp1)
-	        {
-	            temp2=temp1->baza;
-	            if(temp2)
-	            {
-	                temp3=temp2->head;
-	                while(temp3)
-	                {
-	                	if(temp3->pierwsza==A1&&temp3->druga==B1&&temp3->trzecia==C1&&temp3->Id1)
-	                    {
-	                        if(temp3==temp2->head||temp3==temp2->tail)
-	                    	{
-	                        	if(temp3==temp2->head)
-	                        	{
-	                            	temp2->head=temp3->next;
-	                            	if(temp2->head)
-	                            	{
-	                                	temp2->head->prev=0;
-	                            	}
-	                        	}
-		                        if(temp3==temp2->tail)
-		                        {
-		                            temp2->tail=temp3->prev;
-		                            if(temp2->tail)
-		                            {
-		                                temp2->tail->next=0;
-		                            }
-		
-		                        }
-	                    	}
-	                    	
-		                    else
-							{
-		                        temp3->prev->next=temp3->next;
-		                        temp3->next->prev=temp3->prev;
-		                    }
-	                    }
-	                    
-	                    temp3=temp3->next;
-	                }
-	            }
-	            
-	            temp1=temp1->next;
-	
-	        }
-	        
-	        temp=temp->nastepny;
-	
-	    }
-	    delete temp;
-	    delete temp1;
-	    delete temp3;
-	    temp2=NULL;
-	    delete temp2;
-	}
-    
-	Lista() {
-    	pierwsza = 0;
-	}
-};
+            cout << sznur_itr->A << sznur_itr->B << sznur_itr->C << endl;
 
+            Koralik *koral_itr = sznur_itr->first;
 
-int main(){
+            while (koral_itr) {
 
-    Lista *baza = new Lista;
+                cout << koral_itr->Id;
 
-    char operacja;
-    int koral, koralA;
-    char a, b, c, A, B, C;
-    do {
+                Wiazanie *wiazanie_itr = koral_itr->first;
 
-        cin >> operacja;
+                while (wiazanie_itr) {
 
-        if (operacja == 'S') { // Dodanie pustego Sznura
-            cin >> a >> b >> c;
-            baza->AddSznurek(a, b, c);
+                    cout << " " << wiazanie_itr->A << wiazanie_itr->B << wiazanie_itr->C << " " << wiazanie_itr->Id;
+                    wiazanie_itr = wiazanie_itr->next;
+
+                }
+
+                cout << endl;
+                koral_itr = koral_itr->next;
+            }
+
+            sznur_itr = sznur_itr->next;
+        }
+    }
+
+    void przeniesKoralik(int ID, char A1, char B1, char C1, char A2, char B2, char C2) {
+
+        Sznurek *sznur_itr = first;
+
+        while (sznur_itr && !porownajSznurek(sznur_itr->A, sznur_itr->B, sznur_itr->C, A1, B1,
+                                             C1)) { //szukanie odpowiedniego sznurka
+
+            sznur_itr = sznur_itr->next;
         }
 
-		else if (operacja == 'B') { // Dodanie koralika do Sznura
-            cin >> koral >> a >> b >> c;
-            
-			if(koral>=100||koral<=999)
-            	baza->AddBead(a, b, c, koral);
+        if (sznur_itr) { //jesli nie doszlismy na koniec sznurkow
+
+            Koralik *koral_itr = sznur_itr->first;
+
+            while (koral_itr && !porownajKoralik(koral_itr->Id, ID)) { //szukanie odpowiedniego koralika
+
+                koral_itr = koral_itr->next;
+            }
+
+            if (koral_itr) {
+
+                dodajKoralik(koral_itr->Id, A2, B2, C2);
+
+                Wiazanie *wiazanie_itr = koral_itr->first;
+
+                while (wiazanie_itr) {
+
+                    dodajWiazanie(koral_itr->Id, A2, B2, C2, wiazanie_itr->Id, wiazanie_itr->A, wiazanie_itr->B,
+                                  wiazanie_itr->C);
+
+                    wiazanie_itr = wiazanie_itr->next;
+
+                }
+
+                usunKoralik(koral_itr->Id, A1, B1, C1);
+            }
+        }
+    }
+
+    void usunWszystkieWiazania(int ID, char A, char B, char C) {
+
+        Sznurek *sznur_itr = first;
+
+        while (sznur_itr && !porownajSznurek(sznur_itr->A, sznur_itr->B, sznur_itr->C, A, B, C)) { //szukanie odpowiedniego sznurka
+
+            sznur_itr = sznur_itr->next;
         }
 
-		else if (operacja == 'L') { // Dodanie wiazania
-            cin >> koral >> a >> b >> c >> koralA >> A >> B >> C;
-            
-			if(baza->CzyKoraliki(a, b, c, koral, A, B, C, koralA) && ((koral>=100||koral<=999||koralA>=100||koralA<=999)))
-            {
-				baza->DodajWiazanie(a,b,c,koral,A,B,C,koralA);
-			}
+        if (sznur_itr) { //jesli nie doszlismy na koniec sznurkow
+
+            Koralik *koral_itr = sznur_itr->first;
+
+            while (koral_itr && !porownajKoralik(koral_itr->Id, ID)) { //szukanie odpowiedniego koralika
+
+                koral_itr = koral_itr->next;
+            }
+
+            if (koral_itr) { //jesli nie doszlismy na koniec koralikow
+
+                if (koral_itr->first != 0) { //jesli wgl istnieje jakies wiazanie
+
+                    Wiazanie *wiazanie_itr = koral_itr->first;
+
+                    while (wiazanie_itr->next) {
+
+                        if (wiazanie_itr->next->next == 0) {
+
+                            usunWiazanie(ID, A, B, C, wiazanie_itr->next->Id, wiazanie_itr->next->A, wiazanie_itr->next->B, wiazanie_itr->next->C);
+                            wiazanie_itr = koral_itr->first;
+                        } else {
+                            wiazanie_itr = wiazanie_itr->next;
+                        }
+                    }
+
+                    delete wiazanie_itr;
+                }
+            }
+        }
+    }
+
+    void usunWiazanie(int ID1, char A1, char B1, char C1, int ID2, char A2, char B2, char C2) {
+
+        Sznurek *sznur_itr = first;
+
+        while (sznur_itr && !porownajSznurek(sznur_itr->A, sznur_itr->B, sznur_itr->C, A1, B1,
+                                             C1)) { //szukanie odpowiedniego sznurka
+
+            sznur_itr = sznur_itr->next;
         }
 
-		else if (operacja == 'U') { // Usuniecie powiazania
-            cin >> koral >> a >> b >> c >> koralA >> A >> B >> C;
-            if(baza->CzyKoraliki(a, b, c, koral, A, B, C, koralA) && ((koral>=100||koral<=999||koralA>=100||koralA<=999))){
-				baza->UsunWiazanie(a, b, c, koral, A, B, C, koralA);
-			}
+        if (sznur_itr) { //jesli nie doszlismy na koniec sznurkow
+
+            Koralik *koral_itr = sznur_itr->first;
+
+            while (koral_itr && koral_itr->Id != ID1) { //szukanie odpowiedniego koralika
+
+                koral_itr = koral_itr->next;
+            }
+
+            if (koral_itr) { //jesli nie doszlismy na koniec koralikow
+
+                if (koral_itr->first != 0) { //jesli wgl istnieje jakies wiazanie
+
+                    Wiazanie *wiazanie_itr = koral_itr->first;
+
+                    if (wiazanie_itr->Id == ID2 && wiazanie_itr->A == A2 && wiazanie_itr->B == B2 &&
+                        wiazanie_itr->C == C2) { //usuwanie pierwszego wiazania
+
+                        koral_itr->first = wiazanie_itr->next;
+                        delete wiazanie_itr;
+
+                    } else {
+
+                        while (wiazanie_itr->next &&
+                               !porownajWiazanie(wiazanie_itr->next->Id, ID2, wiazanie_itr->next->A,
+                                                 wiazanie_itr->next->B, wiazanie_itr->next->C, A2, B2, C2)) {
+                            wiazanie_itr = wiazanie_itr->next;
+                        }
+
+                        //jesli usuwamy cos co rzeczywiscie jest zlinkowane
+                        if (wiazanie_itr->next != 0 && wiazanie_itr->next->Id == ID2 && wiazanie_itr->next->A == A2 &&
+                            wiazanie_itr->next->B == B2 && wiazanie_itr->next->C == C2) {
+
+                            if (wiazanie_itr->next->next == 0) { //usuwanie ostatniego wiazania
+
+                                delete wiazanie_itr->next;
+                                wiazanie_itr->next = NULL;
+                            } else { //usuwanie dowolnych wiazan w srodku
+
+                                Wiazanie *temp = wiazanie_itr->next;
+                                wiazanie_itr->next = wiazanie_itr->next->next;
+                                delete temp;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    void dodajWiazanie(int ID1, char A1, char B1, char C1, int ID2, char A2, char B2, char C2) {
+
+        Sznurek *sznur_itr = first;
+        Wiazanie *nowy = new Wiazanie();
+
+        nowy->Id = ID2;
+        nowy->A = A2;
+        nowy->B = B2;
+        nowy->C = C2;
+
+        while (sznur_itr && !porownajSznurek(sznur_itr->A, sznur_itr->B, sznur_itr->C, A1, B1,
+                                             C1)) { //szukanie odpowiedniego sznurka
+
+            sznur_itr = sznur_itr->next;
         }
 
-		else if (operacja == 'D') { // Usuniecie koralika wraz z jego powiazaniami
-            cin >> koral >> a >> b >> c;
-            if(baza->CzyKoraliki(a, b, c, koral, a, b, c, koral) && (koral>=100||koral<=999))
-			{
-			    baza->DeleteKoralAndLinks(a, b, c, koral);
-			//baza->UsunNiepotrzebne(a,b,c,koral);
-			}
+        if (sznur_itr) { //jesli nie doszlismy na koniec sznurkow
+
+            Koralik *koral_itr = sznur_itr->first;
+
+            while (koral_itr && koral_itr->Id != ID1) { //szukanie odpowiedniego koralika
+
+                koral_itr = koral_itr->next;
+            }
+
+            if (koral_itr) { //jesli nie doszlismy na koniec koralikow
+
+                if (koral_itr->first == 0) {
+
+                    koral_itr->first = nowy;
+
+                } else {
+
+                    Wiazanie *wiazanie_itr = koral_itr->first;
+
+                    if (porownajWiazanie(wiazanie_itr->Id, ID2, wiazanie_itr->A, wiazanie_itr->B, wiazanie_itr->C, A2,
+                                         B2, C2)) {
+
+                        nowy->next = koral_itr->first;
+                        koral_itr->first = nowy;
+
+                    } else {
+
+                        while (wiazanie_itr->next &&
+                               !porownajWiazanie(wiazanie_itr->next->Id, ID2, wiazanie_itr->next->A,
+                                                 wiazanie_itr->next->B, wiazanie_itr->next->C, A2, B2, C2)) {
+
+                            wiazanie_itr = wiazanie_itr->next;
+                        }
+
+                        if (wiazanie_itr->next == 0) {
+
+                            wiazanie_itr->next = nowy;
+
+                        } else {
+
+                            nowy->next = wiazanie_itr->next;
+                            wiazanie_itr->next = nowy;
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    void usunWszystkieKoraliki(char A, char B, char C) {
+
+        Sznurek *sznur_itr = first;
+
+        while (sznur_itr &&
+               !porownajSznurek(sznur_itr->A, sznur_itr->B, sznur_itr->C, A, B, C)) { //szukanie odpowiedniego sznurka
+
+            sznur_itr = sznur_itr->next;
         }
 
-		else if (operacja == 'M') { // Przeniesienie koralika
-            
-			cin >> koral >> a >> b >> c >> A >> B >> C;
-			
-            if(baza->CzyKoraliki(a, b, c, koral, a, b, c, koral) && (koral>=100||koral<=999))
-           	{
-               	baza->MoveKoralik(a,b,c,koral,A,B,C);
-            	baza->UsunNiepotrzebne(a,b,c,koral);
+        if (sznur_itr) { //jesli nie doszlismy na koniec sznurkow
+
+            if (sznur_itr->first != 0) { //jesli istnieje jakikolwiek koral
+
+                Koralik *koral_itr = sznur_itr->first;
+
+                while (koral_itr->next) {
+
+                    if (koral_itr->next->next == 0) {
+
+                        usunWszystkieWiazania(koral_itr->next->Id, A, B, C);
+
+                        delete koral_itr->next;
+                        koral_itr->next = NULL;
+                        koral_itr = sznur_itr->first;
+                    } else {
+                        koral_itr = koral_itr->next;
+                    }
+                }
+
+                usunWszystkieWiazania(koral_itr->Id, A, B, C);
+                delete koral_itr;
+
+            }
+        }
+    }
+
+    void usunKoralik(int ID, char A, char B, char C) {
+
+        Sznurek *sznur_itr = first;
+
+        while (sznur_itr &&
+               !porownajSznurek(sznur_itr->A, sznur_itr->B, sznur_itr->C, A, B, C)) { //szukanie odpowiedniego sznurka
+
+            sznur_itr = sznur_itr->next;
+        }
+
+        if (sznur_itr) { //jesli nie doszlismy na koniec sznurkow
+
+            if (sznur_itr->first != 0) { //jesli istnieje jakikolwiek koral
+
+                Koralik *koral_itr = sznur_itr->first;
+
+                if (koral_itr->Id == ID) { //usuwanie pierwszego koralika
+
+                    usunWszystkieWiazania(ID, A, B, C);
+
+                    sznur_itr->first = koral_itr->next;
+                    delete koral_itr;
+                } else {
+
+                    while (koral_itr->next && !porownajKoralik(koral_itr->next->Id, ID)) {
+
+                        koral_itr = koral_itr->next;
+                    }
+
+                    if (koral_itr) {
+//						cout << "ID: " << koral_itr->Id <<  " ";
+
+                        if (koral_itr->next != 0 && koral_itr->next->Id == ID) {
+
+                            if (koral_itr->next->next == 0) { //usuwanie ostatniego korala
+                                usunWszystkieWiazania(ID, A, B, C);
+                                delete koral_itr->next;
+                                koral_itr->next = NULL;
+                            } else { //usuwanie dowolnych korali w srodku
+
+                                usunWszystkieWiazania(ID, A, B, C);
+
+                                Koralik *temp = koral_itr->next;
+                                koral_itr->next = koral_itr->next->next;
+                                delete temp;
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    void dodajKoralik(int ID, char A, char B, char C) {
+
+        Koralik *nowy = new Koralik();
+        Sznurek *sznur_itr = first;
+
+        nowy->Id = ID;
+
+        while (sznur_itr &&
+               !porownajSznurek(sznur_itr->A, sznur_itr->B, sznur_itr->C, A, B, C)) { //szukanie odpowiedniego sznurka
+
+            sznur_itr = sznur_itr->next;
+        }
+
+        if (sznur_itr) { //jesli nie doszlismy na koniec sznurkow
+
+            if (sznur_itr->first == 0) {
+
+                sznur_itr->first = nowy;
+
+            } else {
+
+                Koralik *koral_itr = sznur_itr->first;
+
+                if (!porownajKoralik(ID, koral_itr->Id)) {
+
+                    nowy->next = sznur_itr->first;
+                    sznur_itr->first = nowy;
+                } else {
+
+                    while (koral_itr->next && porownajKoralik(ID, koral_itr->next->Id)) {
+
+                        koral_itr = koral_itr->next;
+                    }
+
+                    if (koral_itr->next == 0) {
+
+                        koral_itr->next = nowy;
+                    } else {
+
+                        nowy->next = koral_itr->next;
+                        koral_itr->next = nowy;
+
+                    }
+                }
+            }
+        }
+
+    }
+
+    void usunWszystkieSznurki() {
+
+        Sznurek *sznur_itr = first;
+
+        while (sznur_itr) {
+
+            if (sznur_itr->next == 0) {
+
+                usunSznurek(sznur_itr->A, sznur_itr->B, sznur_itr->C);
+
+                sznur_itr = first;
+            } else {
+                sznur_itr = sznur_itr->next;
+            }
+        }
+
+    }
+
+    void usunSznurek(char A, char B, char C) {
+
+        Sznurek *sznur_itr = first;
+
+        if (sznur_itr->A == A && sznur_itr->B == B && sznur_itr->C == C) { //usuwanie pierwszego sznura
+
+            usunWszystkieKoraliki(A, B, C);
+
+            first = sznur_itr->next;
+            delete sznur_itr;
+
+        } else {
+
+            while (sznur_itr->next && !porownajSznurek(sznur_itr->next->A, sznur_itr->next->B, sznur_itr->next->C, A, B, C)) { //szukanie sznura do usuniecia
+
+                sznur_itr = sznur_itr->next;
+            }
+
+            if (sznur_itr) {
+
+                if (sznur_itr->next != 0 && sznur_itr->next->A == A && sznur_itr->next->B == B &&
+                    sznur_itr->next->C == C) {
+
+                    if (sznur_itr->next->next == 0) { //usuwanie ostatniego sznurka
+                        usunWszystkieKoraliki(A, B, C);
+                        delete sznur_itr->next;
+                        sznur_itr->next = NULL;
+                    } else { //usuwanie dowolnych sznurkow w srodku
+
+                        usunWszystkieKoraliki(A, B, C);
+
+                        Sznurek *temp = sznur_itr->next;
+                        sznur_itr->next = sznur_itr->next->next;
+                        delete temp;
+
+                    }
+                }
+            }
+        }
+    }
+
+    void dodajSznurek(char A, char B, char C) {
+
+        Sznurek *nowy = new Sznurek();
+
+        nowy->A = A;
+        nowy->B = B;
+        nowy->C = C;
+
+        if (first == 0) {
+
+            first = nowy;
+        } else {
+
+            Sznurek *sznur_itr = first;
+
+            if (!porownajSznurek(A, B, C, sznur_itr->A, sznur_itr->B, sznur_itr->C)) {
+
+                nowy->next = first;
+                first = nowy;
+            } else {
+
+                while (sznur_itr->next &&
+                       porownajSznurek(A, B, C, sznur_itr->next->A, sznur_itr->next->B, sznur_itr->next->C)) {
+
+                    sznur_itr = sznur_itr->next;
+                }
+
+                if (sznur_itr->next == 0) {
+
+                    sznur_itr->next = nowy;
+                } else {
+
+                    nowy->next = sznur_itr->next;
+                    sznur_itr->next = nowy;
+
+                }
+
             }
 
         }
 
-		else if (operacja == 'R') { // Usuniecie Sznura
-            cin >> a >> b >> c;
-            baza->UsunSznur(a,b,c);
+    }
+
+    bool porownajSznurek(char A1, char B1, char C1, char A2, char B2, char C2) {
+
+        if (A1 > A2) {
+            return true;
+        } else if (A1 == A2) {
+            if (B1 > B2) {
+                return true;
+            } else if (B1 == B2) {
+                if (C1 >= C2) {
+                    return true;
+                } else if (C1 < C2) {
+                    return false;
+                }
+                return false;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    bool porownajKoralik(int ID1, int ID2) {
+
+        if (ID1 >= ID2)
+            return true;
+
+        return false;
+    }
+
+    bool porownajWiazanie(int ID1, int ID2, char A1, char B1, char C1, char A2, char B2, char C2) {
+
+        if (A1 == A2 && B1 == B2 && C1 == C2) {
+            return porownajKoralik(ID1, ID2);
+        } else
+            return (porownajSznurek(A1, B1, C1, A2, B2, C2));
+
+    }
+
+};
+
+int main() {
+
+    char op;
+    Baza *baza = new Baza();
+
+    do {
+        cin >> op;
+
+        if (op == 'S') {
+
+            char A, B, C;
+
+            cin >> A >> B >> C;
+
+            baza->dodajSznurek(A, B, C);
+
+        } else if (op == 'B') {
+
+            char A, B, C;
+            int ID;
+
+            cin >> ID >> A >> B >> C;
+
+            baza->dodajKoralik(ID, A, B, C);
+        } else if (op == 'L') {
+
+            char A1, B1, C1, A2, B2, C2;
+            int ID1, ID2;
+
+            cin >> ID1 >> A1 >> B1 >> C1 >> ID2 >> A2 >> B2 >> C2;
+
+            baza->dodajWiazanie(ID1, A1, B1, C1, ID2, A2, B2, C2);
+        } else if (op == 'U') {
+
+            char A1, B1, C1, A2, B2, C2;
+            int ID1, ID2;
+
+            cin >> ID1 >> A1 >> B1 >> C1 >> ID2 >> A2 >> B2 >> C2;
+            baza->usunWiazanie(ID1, A1, B1, C1, ID2, A2, B2, C2);
+        } else if (op == 'D') {
+
+            char A, B, C;
+            int ID;
+
+            cin >> ID >> A >> B >> C;
+            baza->usunKoralik(ID, A, B, C);
+
+        } else if (op == 'M') {
+
+            char A1, B1, C1, A2, B2, C2;
+            int ID;
+
+            cin >> ID >> A1 >> B1 >> C1 >> A2 >> B2 >> C2;
+
+            baza->przeniesKoralik(ID, A1, B1, C1, A2, B2, C2);
+
+        } else if (op == 'R') {
+
+            char A, B, C;
+
+            cin >> A >> B >> C;
+            baza->usunSznurek(A, B, C);
+        } else if (op == 'P') {
+
+            baza->print();
+        } else if (op == 'F') {
+
+            baza->usunWszystkieSznurki();
+
+            delete baza;
         }
 
-		else if (operacja == 'P') { // wyswietl
-            baza->Display();
-        }
 
-    }while (operacja != 'F'); // zakoncz
+    } while (op != 'F');
 
-    delete (baza);
-
-	return 0; 
+    return 0;
 }
-
-
