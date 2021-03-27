@@ -1,4 +1,4 @@
-### C++ program that performs certain functions on a given sets.
+### C++ program that performs certain functions on given sets using arrays.
 
 Functions types are: `void, bool, double`.
 
