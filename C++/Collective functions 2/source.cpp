@@ -1,490 +1,623 @@
 //Jan Skwarczek
 
-void ReverseString1(std::string &set1, string &result, int &i){
-	
-    if (i >= 0) {
-        result += set1[i];
-        i--;
-        ReverseString1(set1, result, i);
-    }
-}
+int ToInt(int &i, int &ascii, string &c){
 
-void ReverseString(std::string &set1){
-	
-    std::string result;
-    int i = set1.size() - 1;
-    ReverseString1(set1, result, i);
-    set1 = result;
-}
-
-void Push1(std::string &set1, int &i, int &n){
-	
-    if (i < n) {
-        set1 += "0";
+    if(i<c.length()){
+        ascii += c[i] - '0';
         i++;
-        Push1(set1, i, n);
+        ToInt(i, ascii, c);
     }
+    return ascii;
 }
 
-void Push(std::string &set1, int n){
-	
+int ToInt(string c){
     int i = 0;
-    Push1(set1, i, n);
+    int ascii = 0;
+    return ToInt(i, ascii, c);
 }
 
-int isGreater1(std::string &set1, std::string &set2, int &i){
-	
-    if (i <= set1.size()) {
-        if (set1[i] > set2[i])
-        {
-            return 1;
-        }
-        else if (set1[i] < set2[i])
-        {
-            return 0;
-        }
+string ToString(int c){
+
+    string result = "";
+
+    if(c/10 != 0){
+        result += (c/10 + '0');
+        result += (c%10 + '0');
+    }
+    else{
+        result += (c + '0');
+    }
+
+    return result;
+}
+
+bool CompareString(int &i, string &first_number, string &second_number){
+
+    if(i<first_number.length()){
+        if(first_number[i]>second_number[i])
+            return true;
+
+        else if(first_number[i]<second_number[i])
+            return false;
+
         i++;
-        return isGreater1(set1, set2, i);
-    }
-    return 3;
-}
-
-bool isGreater(std::string& set1,std::string& set2){
-	
-    if( set1.size() > set2.size() )
-        return true;
-        
-    if( set1.size() < set2.size() )
-        return false;
-
-    int i = 0;
-    int tmp = isGreater1(set1,set2,i);
-    if (tmp == 1){
-        return true;
-    }
-    else if (tmp == 0){
-        return false;
+        return CompareString(i, first_number, second_number);
     }
     return false;
 }
 
-void Add1(std::string &set1, std::string &set2, std::string &result, int &carryValue, int &sum, int &i, int &set1Size) {
-    if (i < set1Size) {
-        sum = (set1[i] - '0') + (set2[i] - '0') + carryValue;
-        result += (sum % 10 + '0');
-        carryValue = sum / 10;
-        i++;
-        Add1(set1, set2, result, carryValue, sum, i, set1Size);
-    }
-}
-
-void Add2(std::string &set1, std::string &set2, std::string &result, int &carryValue, int &sum, int &i, int &set2Size) {
-    if (i < set2Size) {
-        sum = (set2[i] - '0') + carryValue;
-        result += (sum % 10 + '0');
-        carryValue = sum / 10;
-        i++;
-        Add2(set1, set2, result, carryValue, sum, i, set2Size);
-    }
-}
-
-std::string Add(std::string set1, std::string set2) {
-    std::string result = "";
-    int sum = 0;
-    int carryValue = 0;
-    if (set1.size() > set2.size())
-        set1.swap(set2);
-
-    ReverseString(set1);
-    ReverseString(set2);
-    int set1Size = set1.size();
-    int set2Size = set2.size();
+bool CompareString(string &first_number, string &second_number){
 
     int i = 0;
-    Add1(set1, set2, result, carryValue, sum, i, set1Size);
+    return CompareString(i, first_number, second_number);
+}
 
-    i = set1Size;
-    Add2(set1, set2, result, carryValue, sum, i, set2Size);
+void AddZeros(int &i, string &number, int &amount){
+    if(i<amount){
+        number += "0";
+        i++;
+        AddZeros(i, number, amount);
+    }
+}
 
-    if (carryValue)
-        result += (carryValue + '0');
-    ReverseString(result);
+void AddZeros(string &number, int &amount){
+    int i = 0;
+    AddZeros(i, number, amount);
+}
+
+void RemoveZeros(int &i, string &number){
+
+    if(i<number.length() && number[i] == '0'){
+        if(number[i]=='0' && number[i+1]=='0'){
+            number = number.substr(i+2);
+            i = -1;
+        }
+        if(number[i]=='0' && number[i+1]!='0') {
+            number = number.substr(i + 1);
+            i = -1;
+        }
+
+        i++;
+        RemoveZeros(i, number);
+    }
+}
+
+void RemoveZeros(string &number){
+    int i = 0;
+    RemoveZeros(i, number);
+}
+
+string ReverseString(int &i, string &result, string &number){
+
+    if(i >= 0){
+        result += number[i];
+        i--;
+        ReverseString(i, result, number);
+    }
+
     return result;
 }
 
+void ReverseString(string &number){
 
-void Sub2 (std::string &set1 , std::string &set2 , int &k , int &sum , int &carryValue , int &set1Size, int &set2Size , std::string &result) {
+    int i = number.length()-1;
+    string result = "";
 
-    if (k < set1Size) {
-        sum = (set1[k] - '0') - carryValue;
-        if (sum < 0) {
-            sum += 10;
-            carryValue = 1;
-        } else {
-            carryValue = 0;
-        }
-        result += (sum + '0');
-        k ++;
-        Sub2(set1, set2, k, sum, carryValue, set1Size, set2Size, result);
-    }
+    number = ReverseString(i, result, number);
 }
 
+string Sub(int &i, int &sum, int &carry, string &result, string &first_number, string &second_number){
 
-void Sub1 (std::string &set1 , std::string &set2 , int &i , int &sum , int &carryValue , int &set2Size , std::string &result){
-
-    if (i < set2Size){
-        sum = (set1[i] - '0') - (set2[i] - '0') - carryValue;
+    if (i < second_number.length()){
+        sum = (first_number[i] - '0') - (second_number[i] - '0') - carry;
         if(sum < 0){
             sum += 10;
-            carryValue = 1;
+            carry = 1;
+
+        } else {
+            carry = 0;
+        }
+        result += (sum + '0');
+        i++;
+        Sub(i, sum, carry, result, first_number, second_number);
+    }
+    else if(i >= second_number.length() && i<first_number.length()){
+        sum = (first_number[i] - '0') - carry;
+        if(sum < 0){
+            sum += 10;
+            carry = 1;
 
         } else {
 
-            carryValue = 0;
+            carry = 0;
         }
         result += (sum + '0');
-        i ++;
-        Sub1(set1, set2, i, sum, carryValue, set2Size, result);
-    }
-}
-
-
-std::string Sub( std::string set1, std::string set2 ) {
-    std::string result = "";
-    int sum = 0;
-    int carryValue = 0;
-
-    ReverseString(set1);
-    ReverseString(set2);
-    int set1Size = set1.size();
-    int set2Size = set2.size();
-
-    int i = 0;
-
-    Sub1(set1, set2, i, sum, carryValue, set2Size, result);
-
-    int k = set2Size;
-
-    Sub2(set1, set2, k, sum, carryValue, set1Size, set2Size, result);
-
-    ReverseString( result );
-
-    int pom= result.find_first_not_of('0');
-    if( pom>= result.size())
-        result = "0";
-    else
-        result.erase(0, pom);
-
-    return result;
-}
-std::string PartSum(std::string set1, std::string set2) {
-    bool notA = false;
-    bool notB = false;
-    std::string result = "";
-
-    if (set1.size() > 0 && set1[0] == '+')
-        set1 = set1.substr(1);
-    if (set2.size() > 0 && set2[0] == '+')
-        set2 = set2.substr(1);
-
-
-    if (set1.size() > 0 && set1[0] == '-') {
-        notA = true;
-        set1 = set1.substr(1);
-    }
-    if (set2.size() > 0 && set2[0] == '-') {
-        notB = true;
-        set2 = set2.substr(1);
-    }
-
-    if (!notA && !notB)
-        result = Add(set1, set2);
-    else if (notA && notB) {
-        result = Add(set1, set2);
-        result = "-" + result;
-    } else {
-        if (notA) {
-            if (isGreater(set1, set2)) {
-                result = Sub(set1, set2);
-                if (result != "0")
-                    result = "-" + result;
-            } else
-                result = Sub(set2, set1);
-        } else { // set1 - set2
-            if (isGreater(set2, set1)) {
-                result = Sub(set2, set1);
-                if (result != "0")
-                    result = "-" + result;
-            } else
-                result = Sub(set1, set2);
-        }
-    }
-    return result;
-}
-
-void Sum1 (std::string &result, int &i, int &set, const std::string *data){
-    
-	if( i < set){
-        result = PartSum(result, data[i]);
         i++;
-        Sum1(result, i, set, data);
+        Sub(i, sum, carry, result, first_number, second_number);
     }
-	
+
+    return result;
 }
 
-std::string Sum(int set, const std::string *data) {
-    
-	std::string result = "0";
+string Sub(string first_number, string second_number){
+
+    string result = "";
     int i = 0;
-    Sum1(result, i, set, data);
+    int sum = 0;
+    int carry = 0;
+
+    ReverseString(first_number);
+    ReverseString(second_number);
+
+    result = Sub(i, sum, carry, result, first_number, second_number);
+
+    if(carry){
+        result += carry + '0';
+    }
+
+    ReverseString(result);
+
     return result;
 }
 
-void Sum2 (int &set, std::string &result, std::string &tmp, va_list &args){
-    
-	if (set > 0){
-        tmp = va_arg(args, char*);
-        result = PartSum(result, tmp);
-        set--;
-        Sum2(set,result,tmp,args);
-    }
-}
+string Add(int &i, int &sum, int &carry, string &result, string &first_number, string &second_number){
 
-std::string Sum(int set, ...) {
-	
-    std::string result = "0";
-    std::string tmp;
-    va_list args;
-    va_start(args, set);
-    Sum2(set,result,tmp,args);
-    va_end(args);
+    if (i < first_number.length()) {
+        sum = (first_number[i] - '0') + (second_number[i] - '0') + carry;
+        result += (sum % 10 + '0');
+        carry = sum / 10;
+        i++;
+        Add(i, sum, carry, result, first_number, second_number);
+    }
+    else if (i >= first_number.length() && i<second_number.length()) {
+        sum = (second_number[i] - '0') + carry;
+        result += (sum % 10 + '0');
+        carry = sum / 10;
+        i++;
+        Add(i, sum, carry, result, first_number, second_number);
+    }
+
     return result;
-    
+
 }
 
-void Sum(std::string *result, int set, const std::string *data) {
-    *result = Sum(set, data);
-}
+string Add(string first_number, string second_number){
 
-void Sum3 (std::string *result, int &set, std::string &tmp, va_list &args){
-    if(set > 0){
-        tmp = va_arg(args, char*);
-        *result = PartSum(*result, tmp);
-        set--;
-        Sum3(result, set, tmp, args);
-    }
-}
+    string result = "";
+    int i = 0;
+    int sum = 0;
+    int carry = 0;
 
-void Sum(std::string *result, int set, ...) {
-    *result = "0";
-    std::string tmp;
-    va_list args;
-    va_start(args, set);
-    Sum3(result, set, tmp, args);
-    va_end(args);
-}
-
-void Sum(std::string &result, int set, const std::string *data) {
-    Sum(&result, set, data);
-}
-
-void Sum(std::string &result, int set, ...) {
-    result = "0";
-    std::string tmp;
-    va_list args;
-    va_start(args, set);
-    Sum2(set,result,tmp,args);
-    va_end(args);
-}
-
-void PartMult2(std::string &set1, std::string &set2, std::string &tmp, std::string &result, int &j) {
-    if (j > 0) {
-        tmp = Add(tmp, set1);
-        j--;
-        PartMult2(set1, set2, tmp, result, j);
-    }
-}
-
-
-void PartMult1(std::string &set1, std::string &set2, std::string &tmp, std::string &result, int &i) {
-    if (i >= 0) {
-        tmp = "0";
-        int j = set2[i] - '0';
-        PartMult2(set1, set2, tmp, result, j);
-        Push(tmp, set2.size() - 1 - i);
-        result = Add(result, tmp);
-        i--;
-        PartMult1(set1, set2, tmp, result, i);
-    }
-}
-
-
-std::string PartMult(std::string set1, std::string set2) {
-
-    bool aNeg = false;
-    bool bNeg = false;
-    std::string result;
-    std::string tmp;
-
-    if (set1.size() > 0 && set1[0] == '+')
-        set1 = set1.substr(1);
-    if (set2.size() > 0 && set2[0] == '+')
-        set2 = set2.substr(1);
-
-    if (set1.size() > 0 && set1[0] == '-') {
-        aNeg = true;
-        set1 = set1.substr(1);
-    }
-    if (set2.size() > 0 && set2[0] == '-') {
-        bNeg = true;
-        set2 = set2.substr(1);
+    if(first_number.length() > second_number.length()){
+        first_number.swap(second_number);
     }
 
-    if (set1 == "0" || set2 == "0")
+    ReverseString(first_number);
+    ReverseString(second_number);
+
+    result = Add(i, sum, carry, result, first_number, second_number);
+
+    if(carry){
+        result += carry + '0';
+    }
+
+    ReverseString(result);
+
+    return result;
+}
+
+string AddOrSub(string first_number, string second_number){
+
+    bool first_minus = false;
+    bool second_minus = false;
+
+    string result = "";
+
+    if(first_number[0] == '-'){
+        first_minus = true;
+        first_number = first_number.substr(1); //ucinanie minusa na poczatku
+    }
+    if(second_number[0] == '-'){
+        second_minus = true;
+        second_number = second_number.substr(1);
+    }
+    if(first_number[0] == '+'){
+        first_number = first_number.substr(1); //ucinanie plusa na poczatku
+    }
+    if(second_number[0] == '+'){
+        second_number = second_number.substr(1);
+    }
+
+    if(first_number == "0" && second_number == "0")
         return "0";
 
-    int i = set2.size() - 1;
-    PartMult1(set1, set2, tmp, result, i);
+    if(first_number != "0" && ToInt(first_number) != 0)
+        RemoveZeros(first_number);
+    if(second_number != "0" && ToInt(second_number) != 0)
+        RemoveZeros(second_number);
 
-    if (aNeg ^ bNeg)
-        result = "-" + result;
+    if(ToInt(first_number) == 0 && first_number.length() > 1)
+        first_number = first_number.substr(first_number.length()-1);
+    if(ToInt(second_number) == 0 && second_number.length() > 1)
+        second_number = second_number.substr(second_number.length()-1);
+
+    if(first_number == "" && second_number == "")
+        return "";
+    else if(first_number == "" && second_number != ""){
+        if(second_minus)
+            return "-" + second_number;
+        else
+            return second_number;
+    }
+    else if(first_number != "" && second_number == ""){
+        if(first_minus)
+            return "-" + first_number;
+        else
+            return first_number;
+    }
+
+    if(!first_minus && !second_minus){
+        result = Add(first_number, second_number);
+    }
+    else if(first_minus && second_minus){
+        result = Add(first_number, second_number);
+
+        if(result != "0")
+            RemoveZeros(result);
+
+        result = '-' + result;
+    }
+    else if(first_minus && !second_minus) {
+
+        if(first_number == second_number)
+            result = "0";
+
+        else{
+            if(first_number.length() > second_number.length()){
+
+                result = Sub(first_number, second_number);
+                if(result != "0") {
+                    RemoveZeros(result);
+                    result = '-' + result;
+                }
+            }
+            else if(first_number.length() < second_number.length()){
+                result = Sub(second_number, first_number);
+                RemoveZeros(result);
+
+            }
+            else{
+                if(CompareString(first_number, second_number)){
+
+                    result = Sub(first_number, second_number);
+                    if(result != "0") {
+                        RemoveZeros(result);
+                        result = '-' + result;
+                    }
+                }
+                else{
+                    result = Sub(second_number, first_number);
+                    RemoveZeros(result);
+                }
+            }
+        }
+
+    }
+    else if(!first_minus && second_minus){
+
+        if(first_number == second_number)
+            result = "0";
+
+        else{
+            if(first_number.length() > second_number.length()) {
+                result = Sub(first_number, second_number);
+                RemoveZeros(result);
+
+            }
+            else if(first_number.length() < second_number.length()) {
+                result = Sub(second_number, first_number);
+
+                if(result != "0") {
+                    RemoveZeros(result);
+                    result = '-' + result;
+                }
+            }
+            else{
+                if(CompareString(first_number, second_number)){
+                    result = Sub(first_number, second_number);
+                    RemoveZeros(result);
+                }
+                else{
+                    result = Sub(second_number, first_number);
+
+                    if(result != "0") {
+                        RemoveZeros(result);
+                        result = '-' + result;
+                    }
+                }
+            }
+        }
+    }
 
     return result;
 }
 
-void Mult1(int &set, const std::string *data, std::string &result, int &i) {
-	
-    if (i < set) {
-        result = PartMult(result, data[i]);
+void SumFirst(int &i, int &str_length, string &result, const string *numbers){
+
+    if(i < str_length){
+        result = AddOrSub(result, numbers[i]); //dodawanie resulta i kolejnych wartosci stringa
         i++;
-        Mult1(set, data, result, i);
+        SumFirst(i, str_length, result, numbers);
     }
 }
 
-std::string Mult(int set, const std::string *data) {
-	
-    std::string result = "1";
+void SumSecond(int &i, int &str_length, string &result, va_list numbers){
+
+    if(i < str_length){
+        result = AddOrSub(result, va_arg(numbers, char*)); //dodawanie resulta i kolejnych wartosci stringa
+        i++;
+        SumSecond(i, str_length, result, numbers);
+    }
+}
+
+string Sum(int str_length, const string *numbers){
+
+    string result = "";
+
     int i = 0;
-    Mult1(set, data, result, i);
+    SumFirst(i, str_length, result, numbers);
+
     return result;
 }
 
-void Mult2(int &set, std::string &tmp, std::string &result, va_list &args) {
-	
-    if (set-- > 0) {
-        tmp = va_arg(args, char*);
-        result = PartMult(result, tmp);
-        Mult2(set, tmp, result, args);
-    }
+string Sum(int str_length, ...){
 
-}
+    string result = "";
+    int i = 0;
 
-std::string Mult(int set, ...) {
-	
-    std::string result = "1";
-    std::string tmp;
-    va_list args;
-    va_start(args, set);
-    Mult2(set, tmp, result, args);
-    va_end(args);
+    va_list numbers;
+    va_start(numbers, str_length);
+    SumSecond(i, str_length, result, numbers);
+    va_end(numbers);
+
     return result;
 }
 
-void Mult(std::string *result, int set, const std::string *data) {
-    *result = Mult(set, data);
+void Sum(string *result, int str_length, const string *numbers) {
+    *result = Sum(str_length, numbers);
 }
 
+void Sum(string *result, int str_length, ...){
 
-void Mult3(int &set, std::string &tmp, std::string *result, va_list& args) {
-    if (set-- > 0) {
-        tmp = va_arg( args, char*);
-        *result = PartMult(*result, tmp );
-        Mult3(set, tmp, result, args);
+    int i = 0;
+
+    va_list numbers;
+    va_start(numbers, str_length);
+    SumSecond(i, str_length, *result, numbers);
+    va_end(numbers);
+}
+
+void Sum(string &result, int str_length, const string *numbers) {
+    Sum(&result, str_length, numbers);
+}
+
+void Sum(string &result, int str_length, ...){
+
+    result = "";
+    int i = 0;
+
+    va_list numbers;
+    va_start(numbers, str_length);
+    SumSecond(i, str_length, result, numbers);
+    va_end(numbers);
+}
+
+string Multiply2(int &i, int &j, int &amount, int &counter, string &numsToAdd, string &result, string &first_number, string &second_number){
+
+    if(i>=0){
+        numsToAdd = ToString((first_number[i]-'0') * (second_number[j]-'0'));
+        AddZeros(numsToAdd, amount);
+        result = Add(result, numsToAdd);
+        i--;
+        amount++;
+        Multiply2(i, j, amount, counter, numsToAdd, result, first_number, second_number);
+    }
+    amount = counter;
+    return result;
+}
+
+string Multiply1(int &i, int &j, int &amount, int &counter, string &numsToAdd, string &result, string &first_number, string &second_number){
+
+    if(j>=0){
+        Multiply2(i, j, amount, counter, numsToAdd, result, first_number, second_number);
+        i = first_number.length()-1;
+        counter++;
+        j--;
+        Multiply1(i, j, amount, counter, numsToAdd, result, first_number, second_number);
+    }
+    return result;
+}
+
+string Multiply(string first_number, string second_number){
+
+    int i = first_number.length()-1;
+    int j = second_number.length()-1;
+
+    int amount = 0;
+    int counter = 1;
+
+    string numsToAdd = "";
+
+    string result = "";
+
+    result = Multiply1(i, j, amount, counter, numsToAdd, result, first_number, second_number);
+
+    return result;
+
+}
+
+string Multiplier(string first_number, string second_number){
+
+    bool first_minus = false;
+    bool second_minus = false;
+
+    string result = "";
+
+    if(first_number[0]=='-'){
+        first_minus = true;
+        first_number = first_number.substr(1);
+    }
+    if(second_number[0]=='-'){
+        second_minus = true;
+        second_number = second_number.substr(1);
+    }
+    if(first_number[0]=='+'){
+        first_number = first_number.substr(1);
+    }
+    if(second_number[0]=='+'){
+        second_number = second_number.substr(1);
+    }
+
+    if(first_number != "0")
+        RemoveZeros(first_number);
+    if(second_number != "0")
+        RemoveZeros(second_number);
+
+    if(first_number == "0" || second_number == "0" || first_number == "" || second_number == "")
+        return "0";
+
+    if(first_number.length() < second_number.length())
+        first_number.swap(second_number);
+
+    if((first_minus && second_minus) || (!first_minus && !second_minus)){
+        result = Multiply(first_number, second_number);
+    }
+    else{
+        result = Multiply(first_number, second_number);
+        result = '-' + result;
+    }
+
+    return result;
+}
+
+void MultFirst(int &i, int &str_length, string &result, const string *numbers){
+    if(i<str_length){
+        result = Multiplier(result, numbers[i]);
+        i++;
+        MultFirst(i, str_length, result, numbers);
     }
 }
 
-void Mult(std::string* result, int set, ... ){
+void MultSecond(int &i, int &str_length, string &result, va_list numbers){
+    if(i < str_length){
+        result = Multiplier(result, va_arg(numbers, char*)); //dodawanie resulta i kolejnych wartosci stringa
+        i++;
+        MultSecond(i, str_length, result, numbers);
+    }
+}
+
+string Mult(int str_length, const string *numbers){
+
+    string result = "1";
+    int i = 0;
+
+    MultFirst(i, str_length, result, numbers);
+
+    return result;
+}
+
+string Mult(int str_length, ...){
+    string result = "1";
+    int i = 0;
+
+    va_list numbers;
+    va_start(numbers, str_length);
+    MultSecond(i, str_length, result, numbers);
+    va_end(numbers);
+
+    return result;
+}
+
+void Mult(string *result, int str_length, const string *numbers){
+    *result = Mult(str_length, numbers);
+}
+
+void Mult(string *result, int str_length, ...){
+    int i = 0;
     *result = "1";
-    std::string tmp;
-    va_list args;
-    va_start(args, set );
-    Mult3(set, tmp, result, args);
-    va_end(args );
+    va_list numbers;
+    va_start(numbers, str_length);
+    MultSecond(i, str_length, *result, numbers);
+    va_end(numbers);
 }
 
-
-void Mult(std::string &result, int set, const std::string *data) {
-    Mult(&result, set, data);
+void Mult(string &result, int str_length, const string *numbers){
+    Mult(&result, str_length, numbers);
 }
 
-
-void Mult(std::string &result, int set, ...) {
+void Mult(string &result, int str_length, ...){
     result = "1";
-    std::string tmp;
-    va_list args;
-    va_start(args, set);
-    Mult2(set, tmp, result, args);
-    va_end(args);
+    int i = 0;
+
+    va_list numbers;
+    va_start(numbers, str_length);
+    MultSecond(i, str_length, result, numbers);
+    va_end(numbers);
 }
 
-std::string Operation(std::string (*funct)(int, const std::string *), int set, const std::string *data) {
-    return funct(set, data);
+string Operation(string(*f)(int, const string *), int str_length, const string *numbers){
+    return f(str_length, numbers);
 }
 
-void Operation1(int &set, std::string *data, int &i, va_list& args) {
-    if (i < set) {
-        data[i] = va_arg(args, char*);
+void DataFiller(int &i, int &str_length, string *data, va_list &numbers){
+    if(i<str_length){
+        data[i] = va_arg(numbers, char*);
         i++;
-        Operation1(set, data, i, args);
+        DataFiller(i, str_length, data, numbers);
     }
-
 }
 
-std::string Operation(std::string (*funct)(int, const std::string *), int set, ...) {
-	
-    std::string *data = new std::string[set];
-    va_list args;
-    va_start(args, set);
+string Operation(string (*f)(int, const string *), int str_length, ...){
+
+    string data[str_length];
     int i = 0;
-    Operation1(set, data, i, args);
-    va_end(args);
 
-    std::string result = Operation(funct, set, data);
-    delete[] data;
-    return result;
+    va_list numbers;
+    va_start(numbers, str_length);
+    DataFiller(i, str_length, data, numbers);
+    va_end(numbers);
+
+    return Operation(f, str_length, data);
 }
 
-void Operation(std::string *result, std::string (*funct)(int, const std::string *), int set, ...) {
-
-    std::string *data = new std::string[set];
-    va_list args;
-    va_start(args, set);
+void Operation(string *result, string(*f)(int, const string *), int str_length, ...){
+    string data[str_length];
     int i = 0;
-    Operation1(set, data, i, args);
-    va_end(args);
 
-    *result = Operation(funct, set, data);
-    delete[] data;
+    va_list numbers;
+    va_start(numbers, str_length);
+    DataFiller(i, str_length, data, numbers);
+    va_end(numbers);
+
+    *result = Operation(f, str_length, data);
 }
 
-void Operation(std::string *result, std::string (*funct)(int, const std::string *), int set, const std::string *data) {
-    *result = funct(set, data);
+void Operation(string *result, string(*f)(int, const string *), int str_length, const string *numbers){
+    *result = f(str_length, numbers);
 }
 
-void Operation(std::string &result, std::string (*funct)(int, const std::string *), int set, ...) {
-
-    std::string *data = new std::string[set];
-    va_list args;
-    va_start(args, set);
+void Operation(string &result, string(*f)(int, const string *), int str_length, ...){
+    string data[str_length];
     int i = 0;
-    Operation1(set, data, i, args);
-    va_end(args);
 
-    result = Operation(funct, set, data);
-    delete[] data;
+    va_list numbers;
+    va_start(numbers, str_length);
+    DataFiller(i, str_length, data, numbers);
+    va_end(numbers);
+
+    result = Operation(f, str_length, data);
 }
 
-void Operation(std::string &result, std::string (*funct)(int, const std::string *), int set, const std::string *data) {
-    result = funct(set, data);
+void Operation(string &result, string(*f)(int, const string *), int str_length, const string *numbers){
+    result = f(str_length, numbers);
 }
-
