@@ -1,4 +1,4 @@
-# Algorithmic projects.
+# University projects.
 
 ### Hello world!
 
