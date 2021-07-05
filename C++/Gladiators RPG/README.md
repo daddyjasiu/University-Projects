@@ -7,3 +7,5 @@ There are few classes that can fight:
 - Beast (`MAX_HP = 150`, `DMG = 40`, `AGILITY = 20`)
 - Berserk (`MAX_HP = 200`, `DMG = 35`, `AGILITY = 5`, `DEFENSE = 15`) - transforms into Beast if `HP < 25`
 - Arena - consists of multiple Humans, Beasts or Berserks
+
+The fighters are being judged by `Caesar` after each fight. Players can die, survive and their stats rise accordingly.
